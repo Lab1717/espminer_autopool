@@ -38,13 +38,7 @@ miners = {
 
 Create as many .cfg pool configuration files as you want, one for each crypto you wish to mine. Place them in the same directory as the script.
 
-Execute the script by running the following command in your terminal:
-## **python miner_pool_config.py**
-
-Follow the prompts: 
-The script will display current settings for each miner, list available pool configuration files, and ask you to select a configuration to apply. Confirm your choice, and the script will apply the settings to all miners and restart them.
-
-Configuration File Format
+Configuration File Format:
 The pool configuration files should follow the .cfg format with key-value pairs like the following example:
 
 ```bash
@@ -55,14 +49,22 @@ fallbackStratumPort = 1234
 stratumUser = yourusername
 fallbackStratumUser = yourusername (DO NOT PUT WORKER NAME, INSTEAD SET IT IN THE SCRIPT)
 
-## **EXAMPLE:**
-## **EXAMPLE:**
+## **Example:**
 miners = {
     "192.168.0.101": "BitAxe01",
     "192.168.0.202": "LuckyLV08",
     "192.168.0.222": "Ultra01",
 }
 ```
+
+Execute the script by running the following command in your terminal:
+
+**python miner_pool_config.py**
+
+Follow the prompts: 
+The script will display current settings for each miner, list available pool configuration files, and ask you to select a configuration to apply. Confirm your choice, and the script will apply the settings to all miners and restart them.
+
+
 ## **Notes**
 
 License
