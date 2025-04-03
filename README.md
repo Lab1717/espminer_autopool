@@ -63,8 +63,6 @@ miners = {
     "192.168.0.222": "Ultra01",
 }
 ```
-Run: python poolinjector.py, pool setting will be applied to all miners you included in the dictionary. 
-
 ## **Notes**
 
 License
