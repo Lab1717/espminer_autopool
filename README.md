@@ -25,7 +25,7 @@ pip install requests
 ## **How to Run:**
 **1)** Clone or download the script to your machine.
 
-**2) Add miners:** Modify the miners dictionary in the script with your miner's IP addresses and aliases.
+**2)** Add miners: Modify the miners dictionary in the script with your miner's IP addresses and aliases.
 
 ```bash
 miners = {
