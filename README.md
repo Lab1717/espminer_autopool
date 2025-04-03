@@ -27,11 +27,13 @@ Clone or download the script to your machine.
 
 **1) Add miners:** Modify the miners dictionary in the script with your miner's IP addresses and aliases.
 
+```bash
 miners = {
     "192.168.0.1": "BitAxe01",
     "192.168.0.2": "LuckyLV08",
     "192.168.0.3": "Ultra01",
 }
+```
 
 ## **2) Create .cfg files:**
 
@@ -47,7 +49,6 @@ stratumPort = 1234
 fallbackStratumPort = 1234
 stratumUser = yourusername
 fallbackStratumUser = yourusername (DO NOT PUT WORKER NAME HERE, INSTEAD SET WORKERNAME IN THE SCRIPT)
-
 ```
 
 **3)** Execute the script by running the following command in your terminal: **python miner_pool_config.py**
