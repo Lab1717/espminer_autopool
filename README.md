@@ -27,7 +27,7 @@ pip install requests
 Clone or download the script to your machine.
 
 Add miners: Modify the miners dictionary in the script with your miner's IP addresses and aliases.
-## **EXAMPLE:**
+## **Example:**
 miners = {
     "192.168.0.101": "BitAxe01",
     "192.168.0.202": "LuckyLV08",
@@ -39,7 +39,7 @@ miners = {
 Create as many .cfg pool configuration files as you want, one for each crypto you wish to mine. Place them in the same directory as the script.
 
 Execute the script by running the following command in your terminal:
-python miner_pool_config.py
+## **python miner_pool_config.py**
 
 Follow the prompts: 
 The script will display current settings for each miner, list available pool configuration files, and ask you to select a configuration to apply. Confirm your choice, and the script will apply the settings to all miners and restart them.
