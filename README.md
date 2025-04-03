@@ -23,9 +23,9 @@ To install the required dependencies, run:
 pip install requests
 ```
 ## **How to Run:**
-Clone or download the script to your machine.
+**1)** Clone or download the script to your machine.
 
-**1) Add miners:** Modify the miners dictionary in the script with your miner's IP addresses and aliases.
+**2) Add miners:** Modify the miners dictionary in the script with your miner's IP addresses and aliases.
 
 ```bash
 miners = {
@@ -34,12 +34,10 @@ miners = {
     "192.168.0.3": "Ultra01",
 }
 ```
-
-## **2) Create .cfg files:**
+**3) Create .cfg files:**
 
 Create as many .cfg pool configuration files as you want, one for each crypto you wish to mine. Place them in the same directory as the script.
 
-Configuration File Format:
 The pool configuration files should follow the .cfg format with key-value pairs like the following example:
 
 ```bash
