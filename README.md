@@ -29,7 +29,9 @@ Create .cfg files: Create as many .cfg pool configuration files as you want, one
 
 Run the script: Execute the script by running the following command in your terminal:
 
-
+bash
+Copia
+Modifica
 python miner_pool_config.py
 Follow the prompts: The script will display current settings for each miner, list available pool configuration files, and ask you to select a configuration to apply. Confirm your choice, and the script will apply the settings to all miners and restart them.
 
