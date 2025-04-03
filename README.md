@@ -27,7 +27,7 @@ pip install requests
 Clone or download the script to your machine.
 
 Add miners: Modify the miners dictionary in the script with your miner's IP addresses and aliases.
-## **Example:**
+**Example:**
 miners = {
     "192.168.0.101": "BitAxe01",
     "192.168.0.202": "LuckyLV08",
