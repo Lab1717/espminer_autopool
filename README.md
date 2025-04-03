@@ -29,9 +29,9 @@ Clone or download the script to your machine.
 **Add miners:** Modify the miners dictionary in the script with your miner's IP addresses and aliases.
 
 miners = {
-    "192.168.0.101": "BitAxe01",
-    "192.168.0.202": "LuckyLV08",
-    "192.168.0.222": "Ultra01",
+    "192.168.0.1": "BitAxe01",
+    "192.168.0.2": "LuckyLV08",
+    "192.168.0.3": "Ultra01",
 }
 
 ## **Create .cfg files:**
@@ -43,11 +43,11 @@ The pool configuration files should follow the .cfg format with key-value pairs 
 
 ```bash
 stratumURL = your-pool-url.com
-fallbackStratumURL = fallback-url.com
+fallbackStratumURL = your-fallback-url.com
 stratumPort = 1234
 fallbackStratumPort = 1234
 stratumUser = yourusername
-fallbackStratumUser = yourusername (DO NOT PUT WORKER NAME, INSTEAD SET WORKERNAME IN THE SCRIPT)
+fallbackStratumUser = yourusername (DO NOT PUT WORKER NAME HERE, INSTEAD SET WORKERNAME IN THE SCRIPT)
 
 ```
 
