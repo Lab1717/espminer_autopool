@@ -27,6 +27,12 @@ pip install requests
 Clone or download the script to your machine.
 
 Add miners: Modify the miners dictionary in the script with your miner's IP addresses and aliases.
+## **EXAMPLE:**
+miners = {
+    "192.168.0.101": "BitAxe01",
+    "192.168.0.202": "LuckyLV08",
+    "192.168.0.222": "Ultra01",
+}
 
 ## **Create .cfg files:**
 
@@ -48,9 +54,11 @@ stratumUser = yourusername
 fallbackStratumUser = yourusername (DO NOT PUT WORKER NAME, INSTEAD SET IT IN THE SCRIPT)
 
 ## **EXAMPLE:**
+## **EXAMPLE:**
 miners = {
-    "192.168.0.106": "BitAxe",
-    "192.168.0.211": "LuckyLV08",
+    "192.168.0.101": "BitAxe01",
+    "192.168.0.202": "LuckyLV08",
+    "192.168.0.222": "Ultra01",
 }
 ```
 and so on.... 
