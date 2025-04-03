@@ -1,6 +1,7 @@
 # **ESP Miner Auto-Pool configuration script**
 
-This script is designed to automate the process of configuring and managing mining devices running **BitAxe OS** or similar systems, including **Lucky Miners**. It allows you to apply pool configuration settings to multiple miners and restart them to implement the changes without doing it manually. 
+This script is designed to automate the process of configuring and managing mining devices running **BitAxe OS** / [ESP-Miner Repository](https://github.com/bitaxeorg/ESP-Miner)
+or similar systems, including **Lucky Miners**. It allows you to apply pool configuration settings to multiple miners and restart them to implement the changes without doing it manually. 
 
 The script fetches current miner settings, validates configuration files, and applies new settings to all miners in your network.
 
@@ -52,7 +53,9 @@ fallbackStratumUser = yourusername (DO NOT PUT WORKER NAME HERE, INSTEAD SET WOR
 **3)** Execute the script by running the following command in your terminal: **espminer-pool.py**
 
 Follow the prompts: 
-The script will display current settings for each miner, list available pool configuration files, and ask you to select a configuration to apply. Confirm your choice, and the script will apply the settings to all miners and restart them.
+The script will display current settings for each miner, list available pool configuration files, and ask you to select a configuration to apply. 
+
+Confirm your choice, and the script will apply the settings to all miners and restart them.
 
 
 ## **Notes**
