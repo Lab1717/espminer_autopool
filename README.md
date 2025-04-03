@@ -53,9 +53,7 @@ fallbackStratumUser = yourusername (DO NOT PUT WORKER NAME, INSTEAD SET WORKERNA
 
 ```
 
-Execute the script by running the following command in your terminal:
-
-**python miner_pool_config.py**
+Execute the script by running the following command in your terminal: **python miner_pool_config.py**
 
 Follow the prompts: 
 The script will display current settings for each miner, list available pool configuration files, and ask you to select a configuration to apply. Confirm your choice, and the script will apply the settings to all miners and restart them.
