@@ -1,7 +1,7 @@
 # **ESP Miner Auto-Pool configuration script**
 
-This script is designed to automate the process of configuring and managing mining devices running **BitAxe OS** / [ESP-Miner Repository](https://github.com/bitaxeorg/ESP-Miner)
-or similar systems, including **Lucky Miners**. It allows you to apply pool configuration settings to multiple miners and restart them to implement the changes without doing it manually. 
+This script is designed to automate the process of configuring and managing mining devices running **BitAxe OS** / **[ESP-Miner Repository](https://github.com/bitaxeorg/ESP-Miner)**
+including jailbreack devices such **Lucky Miners**. It allows you to apply pool configuration settings to multiple miners and restart them to implement the changes without doing it manually. 
 
 The script fetches current miner settings, validates configuration files, and applies new settings to all miners in your network.
 
