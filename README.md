@@ -61,14 +61,10 @@ miners = {
     "192.168.0.222": "Ultra01",
 }
 ```
-and so on.... 
+Run: python poolinjector.py, pool setting will be applied to all miners you included in the dictionary. 
 
 ## **Notes**
 
-The script is compatible with BitAxe OS devices and other miners that expose a similar API.
+License
 
-Jailbroken Lucky Miners can also be configured using this script, provided they are running a compatible API.
-
-The miners dictionary should be modified to include the IP addresses and aliases of your mining devices.
-
-Pool configuration settings will be applied to all miners listed in the miners dictionary.
+This script is open-source and free to use, modify, and distribute. Feel free to contribute to the project or improve it as you see fit.
