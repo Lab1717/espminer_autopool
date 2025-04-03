@@ -49,14 +49,8 @@ fallbackStratumURL = fallback-url.com
 stratumPort = 1234
 fallbackStratumPort = 1234
 stratumUser = yourusername
-fallbackStratumUser = yourusername (DO NOT PUT WORKER NAME, INSTEAD SET IT IN THE SCRIPT)
+fallbackStratumUser = yourusername (DO NOT PUT WORKER NAME, INSTEAD SET WORKERNAME IN THE SCRIPT)
 
-## **Example:**
-miners = {
-    "192.168.0.101": "BitAxe01",
-    "192.168.0.202": "LuckyLV08",
-    "192.168.0.222": "Ultra01",
-}
 ```
 
 Execute the script by running the following command in your terminal:
