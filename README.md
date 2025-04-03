@@ -11,7 +11,6 @@ The script fetches current miner settings, validates configuration files, and ap
 - Validates pool configuration files to ensure required fields are present.
 - Automatically applies new pool configuration settings to all miners and restarts them.
 - Supports multiple miners along unique aliases, eg: btcaddress.WorkerName <- alias
-- Provides clear error handling for any issues encountered during fetching or applying settings.
 
 ## **Requirements**
 
@@ -26,7 +25,7 @@ pip install requests
 ## **How to Run:**
 Clone or download the script to your machine.
 
-**Add miners:** Modify the miners dictionary in the script with your miner's IP addresses and aliases.
+**1) Add miners:** Modify the miners dictionary in the script with your miner's IP addresses and aliases.
 
 miners = {
     "192.168.0.1": "BitAxe01",
@@ -34,7 +33,7 @@ miners = {
     "192.168.0.3": "Ultra01",
 }
 
-## **Create .cfg files:**
+## **2) Create .cfg files:**
 
 Create as many .cfg pool configuration files as you want, one for each crypto you wish to mine. Place them in the same directory as the script.
 
@@ -51,7 +50,7 @@ fallbackStratumUser = yourusername (DO NOT PUT WORKER NAME HERE, INSTEAD SET WOR
 
 ```
 
-Execute the script by running the following command in your terminal: **python miner_pool_config.py**
+**3)**Execute the script by running the following command in your terminal: **python miner_pool_config.py**
 
 Follow the prompts: 
 The script will display current settings for each miner, list available pool configuration files, and ask you to select a configuration to apply. Confirm your choice, and the script will apply the settings to all miners and restart them.
