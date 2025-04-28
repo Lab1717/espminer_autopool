@@ -35,6 +35,13 @@ miners = {
     "192.168.0.2": "LuckyLV08",
     "192.168.0.3": "Ultra01",
 }
+
+or
+miners = {
+    "192.168.0.1": ["WORKER1",2500],
+    "192.168.0.2": ["WORKER2",6000],
+    "192.168.0.2": ["WORKER3",11000],
+}
 ```
 **3) Create .cfg files:**
 
@@ -49,6 +56,8 @@ stratumPort = 1234
 fallbackStratumPort = 1234
 stratumUser = yourusername
 fallbackStratumUser = yourusername (DO NOT PUT WORKER NAME HERE, INSTEAD SET WORKERNAME IN THE SCRIPT)
+
+ZERG_POOL.cfg have some custom fields, look inside the config. 
 ```
 
 Now support ZergPool password concatenation check ZERG_POOL.cfg please read the comments within the code. 
