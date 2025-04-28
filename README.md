@@ -5,6 +5,8 @@ including jailbroken devices such as **Lucky Miners**. It allows you to apply po
 
 The script fetches current miner settings, validates configuration files, and applies new settings to all miners in your network.
 
+Now support ZergPool password concatenation check ZERG_POOL.cfg 
+
 ## **Features**
 
 - Lists all available pool configuration files in the current directory.
