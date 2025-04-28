@@ -6,7 +6,8 @@ import time
 # DEFINE MINERS AS A DICTIONARY {IP: [ALIAS, SD?]} # SD or sart difficulty (the integer value) is only used for ZERG_POOL.cfg; leave it out or set to None/empty to skip it.
 miners = {
     "192.168.0.118": ["Lucky07_Papi",2222],
-    "192.168.0.211": ["Lucky08_Papi",3333], # You can omit SD entirely, as this example: "192.168.0.212": ["WORKER_3"],
+    "192.168.0.211": ["Lucky08_Papi",3333], 
+    # You can omit SD entirely, as this example: "192.168.0.212": ["WORKER_3"],
     
 }
 
