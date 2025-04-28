@@ -3,10 +3,11 @@ import sys
 import requests
 import time
 
-# DEFINE MINERS AS A DICTIONARY {IP: ALIAS}
+# DEFINE MINERS AS A DICTIONARY {IP: [ALIAS, SD?]} # SD or sart difficulty (the integer value) is only used for ZERG_POOL.cfg; leave it out or set to None/empty to skip it.
 miners = {
-    "192.168.0.1": "WORKERNAME_1",
-    "192.168.0.2": "WORKERNAME_2",
+    "192.168.0.118": ["Lucky07_Papi",2222],
+    "192.168.0.211": ["Lucky08_Papi",3333], # You can omit SD entirely, as this example: "192.168.0.212": ["WORKER_3"],
+    
 }
 
 REQUIRED_FIELDS = [
@@ -32,20 +33,19 @@ def read_pool_config(filename):
     return config
 
 def validate_pool_config(config):
-    missing_fields = [field for field in REQUIRED_FIELDS if field not in config]
+    missing_fields = [f for f in REQUIRED_FIELDS if f not in config]
     if missing_fields:
         raise ValueError(f"MISSING REQUIRED FIELDS: {', '.join(missing_fields)}")
 
 def compose_zerg_password(miner_alias, config):
-    required = ['sd', 'c']
-    missing = [k for k in required if k not in config]
-    if missing:
-        raise ValueError(f"Missing ZERG fields: {', '.join(missing)}")
-    pwd = (
-        f"ID={miner_alias}"
-        f",sd={config['sd']}"
-        f",c={config['c']}"
-    )
+    # 'c' is required, 'sd' is optional
+    if 'c' not in config:
+        raise ValueError("Missing ZERG field: c")
+    pwd = f"ID={miner_alias}"
+    sd_val = config.get('sd')
+    if sd_val not in (None, "", 0):
+        pwd += f",sd={sd_val}"
+    pwd += f",c={config['c']}"
     mc_val = config.get('mc', '').strip()
     if mc_val:
         pwd += f",mc={mc_val}"
@@ -56,16 +56,16 @@ def compose_zerg_password(miner_alias, config):
 
 def fetch_miner_settings(miner_ip):
     try:
-        response = requests.get(f"http://{miner_ip}/api/system/info", timeout=10)
-        response.raise_for_status()
-        data = response.json()
+        r = requests.get(f"http://{miner_ip}/api/system/info", timeout=10)
+        r.raise_for_status()
+        d = r.json()
         return {
-            "stratumURL": data.get("stratumURL"),
-            "fallbackStratumURL": data.get("fallbackStratumURL"),
-            "stratumPort": data.get("stratumPort"),
-            "fallbackStratumPort": data.get("fallbackStratumPort"),
-            "stratumUser": data.get("stratumUser"),
-            "fallbackStratumUser": data.get("fallbackStratumUser")
+            "stratumURL": d.get("stratumURL"),
+            "fallbackStratumURL": d.get("fallbackStratumURL"),
+            "stratumPort": d.get("stratumPort"),
+            "fallbackStratumPort": d.get("fallbackStratumPort"),
+            "stratumUser": d.get("stratumUser"),
+            "fallbackStratumUser": d.get("fallbackStratumUser"),
         }
     except requests.exceptions.RequestException as e:
         print(f"ERROR FETCHING MINER SETTINGS FROM {miner_ip}: {e}")
@@ -74,30 +74,40 @@ def fetch_miner_settings(miner_ip):
 def restart_miner(miner_ip):
     try:
         print(f"RESTARTING MINER AT {miner_ip}...")
-        response = requests.post(f"http://{miner_ip}/api/system/restart", timeout=10)
-        response.raise_for_status()
+        r = requests.post(f"http://{miner_ip}/api/system/restart", timeout=10)
+        r.raise_for_status()
         print(f"MINER {miner_ip} RESTARTED SUCCESSFULLY.")
     except requests.exceptions.RequestException as e:
         print(f"ERROR RESTARTING MINER {miner_ip}: {e}")
 
 def set_system_settings(config, pool_filename):
-    for miner_ip, miner_alias in miners.items():
-        miner_config = config.copy()
+    for miner_ip, md in miners.items():
+        # safe unpack: alias mandatory, sd optional
+        miner_alias = md[0]
+        miner_sd = md[1] if len(md) > 1 else None
+
+        miner_cfg = config.copy()
+        # inject per-miner sd only if provided
+        if miner_sd not in (None, "", 0):
+            miner_cfg['sd'] = miner_sd
+
         if pool_filename == "ZERG_POOL.cfg":
-            miner_config["stratumPassword"] = compose_zerg_password(miner_alias, config)
+            miner_cfg["stratumPassword"] = compose_zerg_password(miner_alias, miner_cfg)
         else:
-            miner_config["stratumUser"] = f"{miner_config['stratumUser']}.{miner_alias}"
-            miner_config["fallbackStratumUser"] = f"{miner_config['fallbackStratumUser']}.{miner_alias}"
+            miner_cfg["stratumUser"] = f"{miner_cfg['stratumUser']}.{miner_alias}"
+            miner_cfg["fallbackStratumUser"] = f"{miner_cfg['fallbackStratumUser']}.{miner_alias}"
+
         try:
-            miner_config["stratumPort"] = int(miner_config.get("stratumPort", 0))
-            miner_config["fallbackStratumPort"] = int(miner_config.get("fallbackStratumPort", 0))
+            miner_cfg["stratumPort"] = int(miner_cfg.get("stratumPort", 0))
+            miner_cfg["fallbackStratumPort"] = int(miner_cfg.get("fallbackStratumPort", 0))
         except ValueError:
             print(f"ERROR: INVALID PORT VALUE IN CONFIG FOR {miner_ip}")
             continue
+
         try:
             print(f"APPLYING SETTINGS TO {miner_alias} ({miner_ip})...")
-            response = requests.patch(f"http://{miner_ip}/api/system", json=miner_config, timeout=10)
-            response.raise_for_status()
+            r = requests.patch(f"http://{miner_ip}/api/system", json=miner_cfg, timeout=10)
+            r.raise_for_status()
             print(f"SETTINGS APPLIED TO {miner_alias} SUCCESSFULLY.")
             time.sleep(2)
             restart_miner(miner_ip)
@@ -105,61 +115,63 @@ def set_system_settings(config, pool_filename):
             print(f"ERROR APPLYING SETTINGS TO {miner_alias}: {e}")
 
 def main():
-    num_miners = len(miners)
+    num = len(miners)
     print("#############################################################################")
     print("########### WELCOME TO THE MINER POOL CONFIGURATION SCRIPT! #################")
-    print(f"### FOUND {num_miners} MINER{'S' if num_miners > 1 else ''} WITH YOUR CURRENT SETTINGS ###")
+    print(f"### FOUND {num} MINER{'S' if num>1 else ''} WITH YOUR CURRENT SETTINGS ###")
     print("#############################################################################\n")
 
-    for miner_ip, miner_alias in miners.items():
-        miner_settings = fetch_miner_settings(miner_ip)
-        if miner_settings:
-            print(f"\n[CURRENT POOL SETTINGS FOR {miner_alias} ({miner_ip})]")
-            print(f"  > PRIMARY STRATUM: {miner_settings['stratumURL']}:{miner_settings['stratumPort']}")
-            print(f"  > FALLBACK STRATUM: {miner_settings['fallbackStratumURL']}:{miner_settings['fallbackStratumPort']}")
-            print(f"  > STRATUM USER: {miner_settings['stratumUser']}")
-            print(f"  > FALLBACK USER: {miner_settings['fallbackStratumUser']}")
+    for ip, md in miners.items():
+        alias = md[0]
+        s = fetch_miner_settings(ip)
+        if s:
+            print(f"\n[CURRENT POOL SETTINGS FOR {alias} ({ip})]")
+            print(f"  > PRIMARY STRATUM: {s['stratumURL']}:{s['stratumPort']}")
+            print(f"  > FALLBACK STRATUM: {s['fallbackStratumURL']}:{s['fallbackStratumPort']}")
+            print(f"  > STRATUM USER: {s['stratumUser']}")
+            print(f"  > FALLBACK USER: {s['fallbackStratumUser']}")
 
     pool_files = list_pool_files()
     print("\n############################################################")
     print(f"  > FOUND {len(pool_files)} POOL CONFIGURATION FILES:\n")
-    for i, file in enumerate(pool_files, 1):
-        print(f"  {i}. {file}")
+    for i, f in enumerate(pool_files, 1):
+        print(f"  {i}. {f}")
 
     while True:
         try:
             choice = int(input("\nSELECT A POOL CONFIG FILE (ENTER NUMBER): ").strip())
             if 1 <= choice <= len(pool_files):
-                selected_pool_file = pool_files[choice - 1]
+                sel = pool_files[choice-1]
                 break
-            else:
-                print("INVALID SELECTION. TRY AGAIN.")
+            print("INVALID SELECTION. TRY AGAIN.")
         except ValueError:
             print("ENTER A VALID NUMBER.")
 
     print("\n###############################################################")
-    print(f"#### LOADING CONFIGURATION FROM {selected_pool_file} ###########")
+    print(f"#### LOADING CONFIGURATION FROM {sel} ###########")
     print("###############################################################")
 
-    pool_config = read_pool_config(selected_pool_file)
+    cfg = read_pool_config(sel)
     try:
-        validate_pool_config(pool_config)
-        print(f"\nLOADED POOL CONFIG: {selected_pool_file}")
-        for key, value in pool_config.items():
-            print(f"  {key}: {value}")
+        validate_pool_config(cfg)
+        print(f"\nLOADED POOL CONFIG: {sel}")
+        for k,v in cfg.items():
+            print(f"  {k}: {v}")
 
+        if sel == "ZERG_POOL.cfg":
+            print("\nYOUR ZERGPOOL GENERATED STRATUM PASSWORDS WILL BE:")
+            for ip, md in miners.items():
+                alias = md[0]
+                sd = md[1] if len(md)>1 else None
+                tmp = cfg.copy()
+                if sd not in (None, "", 0):
+                    tmp['sd'] = sd
+                pwd = compose_zerg_password(alias, tmp)
+                print(f"  {alias}: {pwd}")
 
-        if selected_pool_file == "ZERG_POOL.cfg":
-            print("\n YOUR ZERGPOOL GENERATED STRATUM PASSWORDS WILL BE: ")
-            for miner_ip, miner_alias in miners.items():
-                pwd = compose_zerg_password(miner_alias, pool_config)
-                print(f"  {miner_alias}: {pwd}")
-
-
-        apply_choice = input("\nDO YOU WANT TO APPLY THIS CONFIGURATION FOR ALL DEVICES? (YES/NO): ").strip().lower()
-
-        if apply_choice in ["yes", "y"]:
-            set_system_settings(pool_config, selected_pool_file)
+        ans = input("\nDO YOU WANT TO APPLY THIS CONFIGURATION FOR ALL DEVICES? (YES/NO): ").strip().lower()
+        if ans in ("yes","y"):
+            set_system_settings(cfg, sel)
             print("\nDONE! GOOD LUCK!")
             print("\nWant to buy me beer? -> BTC: bc1qn7wn5dqc3mu5da7za234nt2h3mav8rh8mgp99e or DGB: DEqnipmHmcuTwFRUHPxVpVsZgNMnBEm6x4")
         else:
