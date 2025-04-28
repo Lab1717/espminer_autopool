@@ -31,13 +31,6 @@ pip install requests
 
 ```bash
 miners = {
-    "192.168.0.1": "BitAxe01",
-    "192.168.0.2": "LuckyLV08",
-    "192.168.0.3": "Ultra01",
-}
-
-or
-miners = {
     "192.168.0.1": ["WORKER1",2500],
     "192.168.0.2": ["WORKER2",6000],
     "192.168.0.2": ["WORKER3",11000],
