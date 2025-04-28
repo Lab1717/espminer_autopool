@@ -5,7 +5,6 @@ including jailbroken devices such as **Lucky Miners**. It allows you to apply po
 
 The script fetches current miner settings, validates configuration files, and applies new settings to all miners in your network.
 
-Now support ZergPool password concatenation check ZERG_POOL.cfg 
 
 ## **Features**
 
@@ -51,6 +50,8 @@ fallbackStratumPort = 1234
 stratumUser = yourusername
 fallbackStratumUser = yourusername (DO NOT PUT WORKER NAME HERE, INSTEAD SET WORKERNAME IN THE SCRIPT)
 ```
+
+Now support ZergPool password concatenation check ZERG_POOL.cfg please read the comments within the code. 
 
 **3)** Execute the script by running the following command in your terminal: **espminer-pool.py**
 
